@@ -45,7 +45,7 @@ export default function Cart() {
         <Button textOnly onClick={handleCloseCart}>
           Fechar
         </Button>
-        {carrinhoCtx.items.length > 0 && <Button onClick={handleGoToCheckout}> Fechar Compra</Button>}
+        {carrinhoCtx.items.length > 0 && <Button onClick={handleGoToCheckout}> Revisar o Pedido</Button>}
       </p>
     </Modal>
   );

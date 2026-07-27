@@ -20,7 +20,7 @@ export default function Jogo({ jogo }) {
           <p className='jogo-preco'>{currencyFormatter.format(jogo.preco)}</p>
         </div>
         <p className='jogo-actions'>
-          <Button onClick={adicionarJogoAoCarrinho}>Add to Cart</Button>
+          <Button onClick={adicionarJogoAoCarrinho}>Adicionar ao Carrinho</Button>
         </p>
       </article>
     </li>

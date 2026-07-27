@@ -24,7 +24,7 @@ export default function Header() {
         <h1>React Retro Games</h1>
       </div>
       <nav>
-        <Button textOnly onClick={handleShowCart}>Cart ({totalCartItems})</Button>
+        <Button textOnly onClick={handleShowCart}>Carrinho ({totalCartItems})</Button>
       </nav>
     </header>
   );

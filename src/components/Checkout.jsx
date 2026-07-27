@@ -1,13 +1,13 @@
 import { useContext, useActionState } from 'react';
 
-import Modal from './UI/Modal';
-import CarrinhoContext from '../store/CarrinhoContext';
-import { currencyFormatter } from '../util/formatting';
-import Input from './UI/Input';
-import Button from './UI/Button';
-import UsuarioContext from '../store/UsuarioContext';
-import useHttp from '../hooks/useHttp';
+import Modal from './UI/Modal.jsx';
+import CarrinhoContext from '../store/CarrinhoContext.jsx';
+import { currencyFormatter } from '../util/formatting.js';
+import Button from './UI/Button.jsx';
+import UsuarioContext from '../store/UsuarioContext.jsx';
+import useHttp from '../hooks/useHttp.js';
 import Erro from './Erro.jsx';
+import Input from './UI/Input.jsx';
 
 const requestConfig = {
   method: 'POST',
@@ -35,60 +35,36 @@ export default function Checkout() {
   }
 
   async function checkoutAction(prevState, fd) {
-    //const dadosCliente = Object.fromEntries(fd.entries());
+    const dadosCliente = Object.fromEntries(fd.entries());
 
-   const novoPedido = {
-      id: 0, // A API geralmente gera o ID real no banco
+    // Monte os itens no formato correto
+    const itens = cartCtx.items.map(item => ({
+      quantidade: item.quantidade,
+      preco: item.preco,
+      produto: {
+        id: item.id,
+      },
+    }));
+    
+    const novoPedido3 = {
       cliente: {
-        id: 0,
-        nome: 'formData.clienteNome',
-        email: 'formData.clienteEmail',
-        enderecos: [
-          {
-            id: 0,
-            logradouro: 'formData.logradouro',
-            cep: 1,
-            cidade: {
-              id: 0,
-              nome: 'formData.cidadeNome',
-              estado: {
-                id: 0,
-                nome: 'formData.estadoNome'
-              }
-            }
-          }
-        ]
+        nome: dadosCliente.nome,
+        email: dadosCliente.email,
       },
       enderecoDeEntrega: {
-        id: 0,
-        logradouro: 'formData.logradouro',
-        cep: 1,
+        logradouro: dadosCliente.endereco,
+        cep: dadosCliente.cep,
         cidade: {
-          id: 0,
-          nome: 'formData.cidadeNome',
+          nome: dadosCliente.cidade,
           estado: {
-            id: 0,
-            nome: 'formData.estadoNome'
-          }
-        }
-      },
-      itens: [
-        {
-          quantidade: 1,
-          preco: 1,
-          produto: {
-            id: 0,
-            nome: 'formData.produtoNome',
-            preco: 1,
-            imagem: "https://via.placeholder.com/150"
+            nome: dadosCliente.estado,
           },
-          subtotal: 1
-        }
-      ],
-      valorTotal: 1
+        },
+      },
+      itens: itens,
     };
-    
-    await sendRequest(JSON.stringify(novoPedido));
+    console.log(dadosCliente);
+    await sendRequest(JSON.stringify(novoPedido3));
   }
 
   const [formState, formAction, isSending] = useActionState(checkoutAction, null);
@@ -98,7 +74,7 @@ export default function Checkout() {
       <Button type='button' textOnly onClick={handleClose}>
         Fechar
       </Button>
-      <Button>Fechar Compra</Button>
+      <Button>Finalizar Compra</Button>
     </>
   );
 
@@ -122,17 +98,39 @@ export default function Checkout() {
   return (
     <Modal open={userProgressCtx.progress === 'checkout'} onClose={handleClose}>
       <form action={formAction}>
-        <h2>Checkout</h2>
-        <p>Total Amount: {currencyFormatter.format(cartTotal)} </p>
+        <h2>Revisão do Pedido</h2>
+        <p>Confira os dados antes de finalizar a compra</p>
 
         <Input label='Nome Completo' type='text' id='nome' />
-        <Input label='E-mail' type='email' id='email' />
+        <Input label='E-Mail' type='email' id='email' />
         <Input label='Endereço' type='text' id='endereco' />
         <div className='control-row'>
           <Input label='Cep' type='text' id='cep' />
           <Input label='Cidade' type='text' id='cidade' />
           <Input label='Estado' type='text' id='estado' />
         </div>
+
+
+        <section>
+          <h3>Itens do Pedido</h3>
+          <ul>
+            {cartCtx.items.map(item => (
+              <li key={item.id}>
+                <div>
+                  <p>
+                    {item.nome} - {currencyFormatter.format(item.quantidade * item.preco)} ({item.quantidade} X
+                    {currencyFormatter.format(item.preco)})
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div>
+            <span>Total a pagar:</span>
+            <strong>{currencyFormatter.format(cartTotal)}</strong>
+          </div>
+        </section>
 
         {erro && <Erro title='Failed to submit order' messsage={erro} />}
 
