@@ -46,7 +46,7 @@ export default function Checkout() {
       },
     }));
     
-    const novoPedido3 = {
+    const novoPedido = {
       cliente: {
         nome: dadosCliente.nome,
         email: dadosCliente.email,
@@ -54,17 +54,13 @@ export default function Checkout() {
       enderecoDeEntrega: {
         logradouro: dadosCliente.endereco,
         cep: dadosCliente.cep,
-        cidade: {
-          nome: dadosCliente.cidade,
-          estado: {
-            nome: dadosCliente.estado,
-          },
-        },
+        cidade:  dadosCliente.cidade,
+        estado: dadosCliente.estado,
       },
       itens: itens,
     };
-    console.log(dadosCliente);
-    await sendRequest(JSON.stringify(novoPedido3));
+
+    await sendRequest(JSON.stringify(novoPedido));
   }
 
   const [formState, formAction, isSending] = useActionState(checkoutAction, null);
