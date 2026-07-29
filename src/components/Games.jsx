@@ -1,11 +1,11 @@
-import Jogo from './Jogo';
+import Game from './Game';
 import useHttp from '../hooks/useHttp';
 import Erro from './Erro';
 
 const requestConfig = {};
 
 export default function Jogos() {
-  const { data: jogosCarregados, isLoading, erro } = useHttp('http://localhost:8080/produtos', requestConfig, []);
+  const { data: loadedGames, isLoading, erro } = useHttp('http://localhost:8080/games', requestConfig, []);
 
   if (isLoading) {
     return <p className='center'>Carregando jogos...</p>;
@@ -16,9 +16,9 @@ export default function Jogos() {
   }
 
   return (
-    <ul id='jogos'>
-      {jogosCarregados.map(jogo => (
-        <Jogo key={jogo.id} jogo={jogo} />
+    <ul id='games'>
+      {loadedGames.map(game => (
+        <Game key={game.id} game={game} />
       ))}
     </ul>
   );

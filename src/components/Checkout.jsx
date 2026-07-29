@@ -1,10 +1,10 @@
 import { useContext, useActionState } from 'react';
 
 import Modal from './UI/Modal.jsx';
-import CarrinhoContext from '../store/CarrinhoContext.jsx';
+import CartContext from '../store/CartContext.jsx';
 import { currencyFormatter } from '../util/formatting.js';
 import Button from './UI/Button.jsx';
-import UsuarioContext from '../store/UsuarioContext.jsx';
+import UserProgressContext from '../store/UserProgressContext.jsx';
 import useHttp from '../hooks/useHttp.js';
 import Erro from './Erro.jsx';
 import Input from './UI/Input.jsx';
@@ -17,8 +17,8 @@ const requestConfig = {
 };
 
 export default function Checkout() {
-  const cartCtx = useContext(CarrinhoContext);
-  const userProgressCtx = useContext(UsuarioContext);
+  const cartCtx = useContext(CartContext);
+  const userProgressCtx = useContext(UserProgressContext);
 
   const { data, erro, sendRequest, clearData } = useHttp('http://localhost:8080/pedidos', requestConfig);
 
@@ -35,27 +35,26 @@ export default function Checkout() {
   }
 
   async function checkoutAction(prevState, fd) {
-    const dadosCliente = Object.fromEntries(fd.entries());
+    const customerData = Object.fromEntries(fd.entries());
 
-    // Monte os itens no formato correto
     const itens = cartCtx.items.map(item => ({
       quantidade: item.quantidade,
       preco: item.preco,
-      produto: {
+      game: {
         id: item.id,
       },
     }));
     
     const novoPedido = {
       cliente: {
-        nome: dadosCliente.nome,
-        email: dadosCliente.email,
+        nome: customerData.nome,
+        email: customerData.email,
       },
       enderecoDeEntrega: {
-        logradouro: dadosCliente.endereco,
-        cep: dadosCliente.cep,
-        cidade:  dadosCliente.cidade,
-        estado: dadosCliente.estado,
+        logradouro: customerData.endereco,
+        cep: customerData.cep,
+        cidade:  customerData.cidade,
+        estado: customerData.estado,
       },
       itens: itens,
     };
@@ -75,7 +74,7 @@ export default function Checkout() {
   );
 
   if (isSending) {
-    actions = <span>Fechando compra...</span>;
+    actions = <span>Realizando compra...</span>;
   }
 
   if (data && !erro) {
@@ -128,7 +127,7 @@ export default function Checkout() {
           </div>
         </section>
 
-        {erro && <Erro title='Failed to submit order' messsage={erro} />}
+        {erro && <Erro title='Falha em realizar o pedido' message={erro} />}
 
         <p className='modal-actions'>{actions}</p>
       </form>

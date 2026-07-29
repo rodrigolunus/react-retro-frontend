@@ -8,11 +8,11 @@ const UserProgressContext = createContext({
   hideCheckout: () => {},
 });
 
-export function UsuarioContextProvider({ children }) {
+export function UserProgressContextProvider({ children }) {
   const [userProgress, setUserProgress] = useState('');
 
   function showCart() {
-    setUserProgress('carrinho');
+    setUserProgress('cart');
   }
 
   function hideCart() {

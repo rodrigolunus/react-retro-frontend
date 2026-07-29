@@ -1,13 +1,13 @@
 import { createContext, useReducer } from 'react';
 
-const CarrinhoContext = createContext({
+const CartContext = createContext({
   items: [],
   addItem: item => {},
   removeItem: id => {},
   clearCart: () => {},
 });
 
-function carrinhoReducer(state, action) {
+function cartReducer(state, action) {
   if (action.type === 'ADD_ITEM') {
     const existingCartItemIndex = state.items.findIndex(item => item.id === action.item.id);
 
@@ -23,7 +23,6 @@ function carrinhoReducer(state, action) {
     } else {
       updatedItems.push({ ...action.item, quantidade: 1 });
     }
-    console.log(updatedItems);
     return { ...state, items: updatedItems };
   }
 
@@ -51,7 +50,7 @@ function carrinhoReducer(state, action) {
 }
 
 export function CarrinhoContextProvider({ children }) {
-  const [cart, dispatchCartAction] = useReducer(carrinhoReducer, { items: [] });
+  const [cart, dispatchCartAction] = useReducer(cartReducer, { items: [] });
 
   function addItem(item) {
     dispatchCartAction({ type: 'ADD_ITEM', item });
@@ -74,7 +73,7 @@ export function CarrinhoContextProvider({ children }) {
 
   console.log(carrinhoContext);
 
-  return <CarrinhoContext value={carrinhoContext}>{children}</CarrinhoContext>;
+  return <CartContext value={carrinhoContext}>{children}</CartContext>;
 }
 
-export default CarrinhoContext;
+export default CartContext;

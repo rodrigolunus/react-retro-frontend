@@ -2,15 +2,15 @@ import { useContext } from 'react';
 
 import Button from './UI/Button';
 import logoImg from '../assets/logo.jpg';
-import CartContext from '../store/CarrinhoContext';
-import UserProgressContext from '../store/UsuarioContext';
+import CartContext from '../store/CartContext';
+import UserProgressContext from '../store/UserProgressContext';
 
 export default function Header() {
   const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
 
-  const totalCartItems = cartCtx.items.reduce((totalNumberOfItems, item) => {
-    return totalNumberOfItems + item.quantidade;
+  const totalCartItems = cartCtx.items.reduce((itensTotais, item) => {
+    return itensTotais + item.quantidade;
   }, 0);
 
   function handleShowCart() {
@@ -20,7 +20,7 @@ export default function Header() {
   return (
     <header id='main-header'>
       <div id='title'>
-        <img src={logoImg} alt='A restaurant' />
+        <img src={logoImg} alt='Loja De Games Retro' />
         <h1>React Retro Games</h1>
       </div>
       <nav>

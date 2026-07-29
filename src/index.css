@@ -50,7 +50,7 @@ h1 {
   text-transform: uppercase;
 }
 
-#jogos {
+#games {
   width: 90%;
   max-width: 70rem;
   list-style: none;
@@ -61,7 +61,7 @@ h1 {
   gap: 1rem;
 }
 
-.jogo {
+.game {
   background-color: #1d1a16;
   border-radius: 1rem;
   overflow: hidden;
@@ -69,30 +69,30 @@ h1 {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
 
-.jogo article {
+.game article {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.jogo img {
+.game img {
   width: 100%;
   height: 20rem;
   object-fit: cover;
 }
 
-.jogo h3 {
+.game h3 {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0.75rem 0;
 }
 
-.jogo-descricao {
+.game-description {
   margin: 1rem;
 }
 
-.jogo-preco {
+.game-price {
   display: inline-block;
   background-color: #312c1d;
   color: #ffc404;
@@ -103,15 +103,15 @@ h1 {
   border-radius: 4px;
 }
 
-.jogo-actions {
+.game-actions {
   margin-bottom: 1.5rem;
 }
 
-.carrinho h2 {
+.cart h2 {
   margin: 1rem 0;
 }
 
-.carrinho ul {
+.cart ul {
   list-style: none;
   margin: 0.5rem 0;
   padding: 0;
@@ -132,7 +132,7 @@ h1 {
   color: #312c1d;
 }
 
-.total-carrinho {
+.cart-total {
   display: flex;
   justify-content: flex-end;
   margin: 2rem 0;
@@ -141,24 +141,24 @@ h1 {
   color: #46443c;
 }
 
-.item-carrinho{
+.cart-item{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0.5rem 0;
 }
 
-.item-carrinho p {
+.cart-item p {
   margin: 0;
 }
 
-.item-carrinho-actions {
+.cart-item-actions {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
 
-.item-carrinho-actions button {
+.cart-item-actions button {
   cursor: pointer;
   font-size: 1rem;
   width: 1.5rem;
@@ -172,8 +172,8 @@ h1 {
   align-items: center;
 }
 
-.item-carrinho-actions button:hover,
-.item-carrinho-actions button:active {
+.cart-item-actions button:hover,
+.cart-item-actions button:active {
   background-color: #1d1a16;
   color: #ffab04;
 }
